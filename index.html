@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediaPipe Hand Tracking</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      /* Removed align-items: center and height: 100vh */
+      min-height: 100vh;
+      padding-top: 40px; /* Adds space at top */
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    .flexbox {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      max-width: 800px;
+      padding: 20px;
+      padding-bottom: 60px;
+    }
+
+    #container {
+      position: relative;
+      width: 640px;
+      height: 480px;
+      border: 2px solid #444;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    video, canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 640px;
+      height: 480px;
+      transform: scaleX(-1);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      text-align: center;
+    }
+
+    #predictionBox, #instructionBox {
+      background: #1a1a1a;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      width: 100%;
+    }
+
+    #predictionBox {
+      border-left: 5px solid #00bfff;
+    }
+
+    #instructionBox {
+      border-left: 5px solid #28a745;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    #start {
+      background-color: #00bfff;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #start:hover {
+      background-color: #009acd;
+    }
+
+    #levelText {
+      font-size: 18px;
+      margin-top: 5px;
+      color: #f0db4f;
+    }
+
+    #feedback {
+      font-size: 16px;
+      margin-top: 10px;
+      color: #3ec639;
+    }
+
+  </style>
+</head>
+<body>
+<div class="flexbox">
+
+  <!-- Current Gesture Info -->
+  <div id="predictionBox">
+    <h1>Your Current Gesture:</h1>
+    <h2 id="prediction">Start Game To Start Detecting Gestures!</h2>
+    <p id="levelText">Level: 1</p>
+  </div>
+
+  <!-- Simon Says Prompt -->
+  <div>
+    <h1>Simon Says:</h1>
+    <h2 id="simon">–</h2>
+  </div>
+
+  <!-- Hand Detection Display -->
+  <div id="container">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <!-- Feedback & Start -->
+  <h3 id="feedback"></h3>
+  <button id="start">Start Game</button>
+
+  <!-- Instructions -->
+  <div id="instructionBox">
+    <h2>How to Play</h2>
+    <p>
+      This game uses your webcam to detect hand gestures. When you click "Start Game", the system will begin tracking your hand movements.
+      <br><br>
+      "Simon says" will display a gesture. Try to copy it as accurately as possible within the time limit.
+      If you get it right, you move to the next level!
+      <br><br>
+      Make sure your hand is well-lit and within the frame. Good luck!
+    </p>
+  </div>
+
+</div>
+
+<!-- External JS -->
+<script type="module" src="./src/main.js"></script>
+<script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediaPipe Hand Tracking</title>
+  <style>
+    body {
+      background: #111;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      font-family: sans-serif;
+    }
+
+    #container {
+      position: relative;
+      width: 640px;
+      height: 480px;
+    }
+
+    video, canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 640px;
+      height: 480px;
+      transform: scaleX(-1); /* Mirror effect */
+    }
+  </style>
+</head>
+<body>
+<div class="flexbox">
+  <h1>Your current gesture:</h1>
+  <h2 id="prediction">Start Game To Start Detecting Gestures!</h2>
+  <h1>Simon says:</h1>
+  <h2 id="simon"></h2>
+  <div id="container">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+  </div>
+  <h3 id="feedback"></h3>
+  <button id="start">Start game</button>
+</div>
+
+
+<!-- External JS -->
+<script type="module" src="./src/main.js"></script>
+<script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+<style>
+  .flexbox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #start{
+    margin-top: 20px;
+  }
+
+</style>
+</body>
+</html>
