@@ -133,6 +133,8 @@ function showInstructions() {
 
     const showNext = () => {
         if (gameLoopCounter < orderArray.length) {
+            feedbackText.innerText = '';
+
             for (let i = 0; i < gameElements.length; i++) {
                 gameElements[i].classList.remove('active');
             }
@@ -230,6 +232,7 @@ const confidenceThreshold = 0.8;
 const matchThreshold = 0.8; // 80%
 
 async function makePrediction(data) {
+
     if (waitingBetweenGestures || simonSaysActive) return;  // Don't detect during "Simon Says"
 
     const results = await neuralNetwork.classify(data);
@@ -248,7 +251,7 @@ async function makePrediction(data) {
                 const matchRatio = matches / bufferSize;
 
                 if (matchRatio >= matchThreshold) {
-                    feedbackText.style.color = 'green';
+                    feedbackText.style.color = 'limeGreen';
                     feedbackText.innerText = 'Correct! Next one in 2 seconds...';
                     predictionBuffer.length = 0;
                     waitingBetweenGestures = true;
@@ -260,7 +263,7 @@ async function makePrediction(data) {
                         playerTurn = false;
                         setTimeout(() => {
                             level++;
-                            feedbackText.innerText = '';
+                            feedbackText.innerText = 'Level completed!';
                             levelText.innerText = `Level: ${level}`;
                             simonText.innerText = '-';
                             waitingBetweenGestures = false;
