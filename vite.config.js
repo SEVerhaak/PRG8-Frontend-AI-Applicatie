@@ -1,4 +1,4 @@
 export default {
-    base: '/my-gesture-game/', // Adjust this to your repository name
+    base: '/PRG8-Frontend-AI-Applicatie/', // Adjust this to your repository name
     // other Vite configurations...
 };

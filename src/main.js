@@ -9,6 +9,12 @@ const predictionText = document.getElementById('prediction');
 const simonText = document.getElementById('simon');
 const startBtton = document.getElementById('start');
 const feedbackText = document.getElementById('feedback');
+const fist = document.getElementById('fist');
+const thumbsDown = document.getElementById('thumbsDown')
+const thumbsUp = document.getElementById('thumbsUp')
+const openHand = document.getElementById('openHand');
+const gameElements = [fist, thumbsDown, thumbsUp, openHand];
+
 
 const optionArray = ['fist', 'openHand', 'thumbsUp', 'thumbsDown'];
 let orderArray = [];
@@ -121,12 +127,26 @@ function showInstructions() {
     simonText.innerText = '-';
     gameLoopCounter = 0;
 
+    for (let i = 0; i < gameElements.length; i++) {
+        gameElements[i].classList.remove('active');
+    }
+
     const showNext = () => {
         if (gameLoopCounter < orderArray.length) {
+            for (let i = 0; i < gameElements.length; i++) {
+                gameElements[i].classList.remove('active');
+            }
+
+            const element = document.getElementById(orderArray[gameLoopCounter]);
+            element.classList.add('active');
+
             simonText.innerText = orderArray[gameLoopCounter];
             gameLoopCounter++;
             setTimeout(showNext, holdTime);
         } else {
+            for (let i = 0; i < gameElements.length; i++) {
+                gameElements[i].classList.remove('active');
+            }
             simonText.innerText = 'Your turn!';
             arrayEntry = 0;
             answerArray = [];
@@ -249,8 +269,10 @@ async function makePrediction(data) {
                     } else {
                         // Wait 2 seconds before allowing next prediction
                         setTimeout(() => {
-                            feedbackText.innerText = 'Go!';
-                            waitingBetweenGestures = false;
+                            if (gameStarted){
+                                feedbackText.innerText = 'Go!';
+                                waitingBetweenGestures = false;
+                            }
                         }, 2000);
                     }
                 } else {
