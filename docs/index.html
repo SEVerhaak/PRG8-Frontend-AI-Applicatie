@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediaPipe Hand Tracking</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ffffff;
+      height: 100vh;
+    }
+
+    .main-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: stretch;
+      padding: 20px;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .left-column {
+      margin-right: 50px;
+    }
+
+    .right-column {
+      margin-left: 50px;
+      align-items: center;
+    }
+
+    .left-column, .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex: 1;
+    }
+
+    #predictionBox {
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      text-align: center;
+      flex: 1;
+    }
+
+    #container {
+      margin: 20px auto;
+      width: 480px;
+      height: 360px;
+      border: 1px solid #aaa;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    video, canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 480px;
+      height: 360px;
+      transform: scaleX(-1);
+    }
+
+    #feedback {
+      color: #28a745;
+      margin: 10px 0;
+    }
+
+    #start {
+      background-color: #5cb85c;
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #start:hover {
+      background-color: #449d44;
+    }
+
+    .right-column h2 {
+      margin: 0;
+    }
+
+    #levelText {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    .gesture-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 180px); /* wider buttons */
+      gap: 30px; /* more space between */
+      justify-content: center;
+    }
+
+    .gesture-button {
+      padding: 30px;
+      border-radius: 24px;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      cursor: default;
+      font-size: 24px; /* bigger text */
+      border: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .gesture-button:hover {
+      transform: scale(1.05);
+    }
+
+    .green {
+      background-color: #28a745;
+    }
+
+    .red {
+      background-color: #dc3545;
+    }
+
+    .blue {
+      background-color: #007bff;
+    }
+
+    .yellow {
+      background-color: #ffc107;
+      color: black;
+    }
+
+    .active{
+      background-color: #ffffff; !important;
+      color: #000000; !important;
+    }
+
+    #instructionBox {
+      background-color: #34495e;
+      color: #ecf0f1;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 25px;
+    }
+
+  </style>
+  <script type="module" crossorigin src="/PRG8-Frontend-AI-Applicatie/assets/index-Be-vTek9.js"></script>
+</head>
+<body>
+<div class="main-container">
+  <!-- Left Side -->
+  <div class="left-column">
+    <div id="predictionBox">
+      <h2>Your Current gesture:</h2>
+      <h1 id="prediction">Start Game To Start Detecting Gestures!</h1>
+      <div id="container">
+        <video id="video" autoplay playsinline></video>
+        <canvas id="canvas"></canvas>
+      </div>
+      <h3 id="feedback"></h3>
+      <button id="start">Start Game</button>
+      <div id="instructionBox">
+        <h3>How to Play</h3>
+        <p>This game uses your webcam to detect hand gestures. When you click "Start Game", the system will begin tracking your hand movements.</p>
+        <p>"Simon says" will display a gesture. Try to copy it as accurately as possible within the time limit. If you get it right, you move to the next level!</p>
+        <p>Make sure your hand is well-lit and within the frame. Good luck!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side -->
+  <div class="right-column">
+    <h2>Simon says:</h2>
+    <h2 id="simon">-</h2>
+    <p id="levelText">Level 1</p>
+    <div class="gesture-buttons">
+      <div id="fist" class="gesture-button green">Fist</div>
+      <div id="thumbsDown" class="gesture-button red">Thumbs-down</div>
+      <div id="thumbsUp" class="gesture-button blue">Thumbs-up</div>
+      <div id="openHand" class="gesture-button yellow">Open Hand</div>
+    </div>
+  </div>
+</div>
+<!-- External JS -->
+<script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+</body>
+</html>
