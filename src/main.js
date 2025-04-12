@@ -37,9 +37,9 @@ let simonSaysActive = false;
 ml5.setBackend("webgl");
 const neuralNetwork = ml5.neuralNetwork({task: 'classification', debug: true})
 const modelDetails = {
-    model: './model/model.json',
-    metadata: './model/model_meta.json',
-    weights: './model/model.weights.bin'
+    model: '../model/model.json',
+    metadata: '../model/model_meta.json',
+    weights: '../model/model.weights.bin'
 }
 neuralNetwork.load(modelDetails, () => console.log("het model is geladen!"))
 ctx.imageSmoothingEnabled = true;
